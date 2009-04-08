@@ -119,22 +119,36 @@ module Testjour
     end
   
     def handle_get
-      p request
       case request.path_info
       when "/reset"         then reset
       when "/feature_files" then pop(:feature_files)
       when "/results"       then pop(:results, false)
+      when "/status"        then status
       else error("unknown path: #{request.path_info}")
       end
     end
   
     def handle_post
-      p request
-case request.path_info
+      case request.path_info
       when "/feature_files" then push(:feature_files)
       when "/results"       then push(:results)
       else error("unknown path: #{request.path_info}")
       end
+    end
+  
+    def status
+      data = []
+      data << <<-HTML
+        <h2>Testjour Status</h2>
+        <br />
+        Remaining:<br />
+        <ul>
+      HTML
+      queue(:feature_files).each do |file|
+        data << "<li>#{file}</li>"
+      end
+      data << </ul>
+      [200, { "Content-Type" => "text/plain" }, data.join("\n")]
     end
   
     def reset
