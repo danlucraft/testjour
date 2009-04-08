@@ -86,7 +86,7 @@ module Testjour
     end
     
     def self.port
-      15434
+      14295
     end
     
     def self.queues
@@ -119,6 +119,7 @@ module Testjour
     end
   
     def handle_get
+      p request
       case request.path_info
       when "/reset"         then reset
       when "/feature_files" then pop(:feature_files)
@@ -128,7 +129,8 @@ module Testjour
     end
   
     def handle_post
-      case request.path_info
+      p request
+case request.path_info
       when "/feature_files" then push(:feature_files)
       when "/results"       then push(:results)
       else error("unknown path: #{request.path_info}")
