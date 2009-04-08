@@ -28,7 +28,7 @@ module Commands
         configuration.setup_mysql
         Testjour.logger.info "Requiring"
         require_files
-        Testjour.logger.info "Working"
+        Testjour.logger.info "Working #{configuration.queue_uri}"
         work
       end
     end
