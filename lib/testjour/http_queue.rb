@@ -144,7 +144,9 @@ module Testjour
         Remaining:<br />
         <ul>
       HTML
-      queue(:feature_files).each do |file|
+      tmp_q = Marshal.load(Marshal.dump(queue(:feature_files)))
+      r = []; until tmp_q.empty?; r << tmp_q.pop; end
+      r.each do |file|
         data << "<li>#{file}</li>"
       end
       data << "</ul>"
