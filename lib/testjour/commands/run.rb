@@ -72,7 +72,7 @@ module Commands
     end
     
     def remote_slave_run_command(host, path)
-      "ssh #{host} testjour run:remote --in=#{path} #{configuration.run_slave_args.join(' ')} #{testjour_uri}".squeeze(" ")
+      "ssh #{host} #{Config::CONFIG["bindir"]}/testjour run:remote --in=#{path} #{configuration.run_slave_args.join(' ')} #{testjour_uri}".squeeze(" ")
     end
     
     def start_slave
