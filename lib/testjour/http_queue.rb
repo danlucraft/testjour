@@ -71,8 +71,8 @@ module Testjour
         Process.kill("INT", existing_pid.to_i)
         HttpQueue.wait_for_no_service
       end
-      
-      pid = detached_exec(File.expand_path(File.dirname(__FILE__) + "/../../bin/httpq"))
+
+      pid = detached_exec(Config::CONFIG["bindir"]+"/ruby " + File.expand_path(File.dirname(__FILE__) + "/../../bin/httpq"))
       kill_at_exit(pid)
       wait_for_service
       
@@ -86,7 +86,7 @@ module Testjour
     end
     
     def self.port
-      15434
+      14295
     end
     
     def self.queues
