@@ -147,7 +147,7 @@ module Testjour
       queue(:feature_files).each do |file|
         data << "<li>#{file}</li>"
       end
-      data << </ul>
+      data << "</ul>"
       [200, { "Content-Type" => "text/plain" }, data.join("\n")]
     end
   
