@@ -86,7 +86,7 @@ module Testjour
     end
     
     def self.port
-      14295
+      15434
     end
     
     def self.queues

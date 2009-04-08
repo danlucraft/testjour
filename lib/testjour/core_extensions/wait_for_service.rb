@@ -19,6 +19,7 @@ TCPSocket.class_eval do
   
   def self.wait_for_service(options)
     socket = nil
+    puts "wait_for_service(#{options.inspect})"
     Timeout::timeout(options[:timeout] || 20) do
       loop do
         begin
