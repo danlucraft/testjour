@@ -150,7 +150,7 @@ module Testjour
         data << "<li>#{file}</li>"
       end
       data << "</ul>"
-      [200, { "Content-Type" => "text/plain" }, data.join("\n")]
+      [200, { "Content-Type" => "text/html" }, data.join("\n")]
     end
   
     def reset
