@@ -1,5 +1,5 @@
 require 'socket'
-require 'english'
+#require 'english'
 require 'cucumber/formatter/console'
 
 module Testjour
@@ -39,7 +39,7 @@ module Testjour
     end
 
     def visit_table_cell_value(value, width, status)
-      progress(status) if (status != :thead) && !@multiline_arg
+      progress(Time.now, status) if (status != :thead) && !@multiline_arg
     end
     
     private
@@ -53,6 +53,7 @@ module Testjour
     }
 
     def progress(time, status, message = nil, backtrace = nil)
+      Testjour.logger.info "http push :results #{[time, hostname, $PID, CHARS[status], message, backtrace].inspect}"
       HttpQueue.with_queue(@queue_uri) do |queue|
         queue.push(:results, [time, hostname, $PID, CHARS[status], message, backtrace])
       end
