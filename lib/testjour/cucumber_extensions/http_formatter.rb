@@ -23,7 +23,7 @@ module Testjour
     def visit_step(step)
       @step_start = Time.now
       exception = super
-      
+      Testjour.logger.info "#{@last_status.inspect} #{exception.inspect}"
       unless @last_status == :outline
         if @last_status == :failed
           progress(@last_time, @last_status, exception.message.to_s, exception.backtrace.join("\n"))
