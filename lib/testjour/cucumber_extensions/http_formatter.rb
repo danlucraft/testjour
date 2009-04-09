@@ -23,13 +23,8 @@ module Testjour
     def visit_step(step)
       @step_start = Time.now
       exception = super
-      Testjour.logger.info "#{@last_status.inspect} #{exception.inspect}"
       unless @last_status == :outline
-        if @last_status == :failed
-          progress(@last_time, @last_status, exception.message.to_s, exception.backtrace.join("\n"))
-        else
-          progress(@last_time, @last_status)
-        end
+        progress(@last_time, @last_status)
       end
     end
     
@@ -37,7 +32,12 @@ module Testjour
       @last_status = status
       @last_time = Time.now - @step_start
     end
-
+    
+    def visit_exception(exception, status)
+      return if @skip_step
+      progress(@last_time, @last_status, exception.message.to_s, exception.backtrace.join("\n"))
+    end
+    
     def visit_table_cell_value(value, width, status)
       progress(Time.now, status) if (status != :thead) && !@multiline_arg
     end
