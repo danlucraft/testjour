@@ -60,9 +60,15 @@ module Commands
     end
     
     def require_files
-      configuration.files_to_require.each do |lib|
-        Testjour.logger.info "Requiring: #{lib}"
-        require lib
+      begin
+        configuration.files_to_require.each do |lib|
+          Testjour.logger.info "Requiring: #{lib}"
+          require lib
+        end
+      rescue Object => e
+        Testjour.logger.info "Exit with error: " + e.message
+        Testjour.logger.info e.backtrace.join("\n")
+        exit
       end
     end
     
