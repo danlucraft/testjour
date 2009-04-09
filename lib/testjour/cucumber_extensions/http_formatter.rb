@@ -39,7 +39,7 @@ module Testjour
     end
     
     def visit_table_cell_value(value, width, status)
-      progress(Time.now, status) if (status != :thead) && !@multiline_arg
+      progress(@last_time, status) if (status != :thead) && !@multiline_arg
     end
     
     private
