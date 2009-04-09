@@ -66,13 +66,13 @@ module Commands
     
     def start_remote_slave(remote_slave)
       uri = URI.parse(remote_slave)
-      cmd = remote_slave_run_command(uri.host, uri.path)
+      cmd = remote_slave_run_command(uri.user, uri.host, uri.path)
       Testjour.logger.info "Starting remote slave: #{cmd}"
       detached_exec(cmd)
     end
     
-    def remote_slave_run_command(host, path)
-      "ssh #{host} #{Config::CONFIG["bindir"]}/testjour run:remote --in=#{path} #{configuration.run_slave_args.join(' ')} #{testjour_uri}".squeeze(" ")
+    def remote_slave_run_command(user, host, path)
+      "ssh #{user}@#{host} /opt/songkick/bin/testjour run:remote --in=#{path} #{configuration.run_slave_args.join(' ')} #{testjour_uri}".squeeze(" ")
     end
     
     def start_slave
