@@ -45,7 +45,12 @@ module Commands
           if feature_file
             Testjour.logger.info "Running: #{feature_file}"
             features = load_plain_text_features(feature_file)
-            execute_features(features)
+            begin
+              execute_features(features)
+            rescue Object => e
+              Testjour.logger.info "Error: #{e.message}\n#{e.backtrace.join("\n")}"
+              exit
+            end
             Testjour.logger.info "Completed: #{feature_file}"
           else
             Testjour.logger.info "No feature file found. Finsihed"
