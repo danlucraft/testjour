@@ -126,7 +126,7 @@ module Commands
     end
     
     def testjour_uri
-      user = "dan" # configuration.full_uri.user # `whoami`.strip
+      user = `whoami`.strip
       host = Socket.gethostname
       "http://#{user}@#{host}:#{Testjour::HttpQueue.port}" + File.expand_path(".")
     end
