@@ -35,7 +35,7 @@ module Commands
     end
     
     def queue_features
-      Testjour.logger.info("Queuing features...")
+      Testjour.logger.info("Queuing #{configuration.feature_files.length} features...")
       
       HttpQueue.with_queue(queue_uri) do |queue|
         configuration.feature_files.each do |feature_file|
@@ -110,6 +110,7 @@ module Commands
       visitor = Testjour::StepCounter.new(step_mother)
       visitor.options = configuration.cucumber_configuration.options
       visitor.visit_features(features)
+      Testjour.logger.info "step count: #{visitor.count}"
       return visitor.count
     end
     
