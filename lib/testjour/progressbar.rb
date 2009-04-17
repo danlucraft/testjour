@@ -16,6 +16,7 @@ class ProgressBar
   attr_writer :title
   
   def initialize (title, total, out = STDERR)
+    @isatty = STDERR.isatty # if falsewe are redirecting to a file, not the screen
     @title = title
     @total = total
     @out = out
@@ -59,7 +60,7 @@ class ProgressBar
   end
 
   def eol
-    if @is_finished then "\n" else "\r" end
+    if @is_finished or not @isatty then "\n" else "\r" end
   end
 
   def bar(percentage)
