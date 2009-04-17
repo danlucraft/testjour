@@ -86,6 +86,8 @@ module Testjour
     end
     
     def load_plain_text_features(files)
+      @features_cache ||= {}
+      return @features_cache[files] if @features_cache[files]
       start = Time.now
       features = Cucumber::Ast::Features.new
       
@@ -93,6 +95,7 @@ module Testjour
         features.add_feature(parser.parse_file(file))
       end
       Testjour.logger.info "Configuration\#load_plain_text_features took #{Time.now - start}s"
+      @features_cache[files] = features
       return features
     end
     
