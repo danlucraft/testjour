@@ -29,7 +29,7 @@ module Testjour
     end
     
     def visit_step_name(keyword, step_name, status, step_definition, source_indent)
-      Testjour.logger.info "visit_step_name(#{keyword.inspect}, #{step_name.instance_variable_get(:@step_name).inspect}, #{status.inspect}"
+#      Testjour.logger.info "visit_step_name(#{keyword.inspect}, #{step_name.instance_variable_get(:@step_name).inspect}, #{status.inspect}"
       @last_status = status
       @last_time = Time.now - @step_start
     end
@@ -40,7 +40,7 @@ module Testjour
     end
     
     def visit_table_cell_value(value, width, status)
-      Testjour.logger.info "visit_table_cell_value(#{value.inspect}, #{width.inspect}, #{status.inspect})"
+#      Testjour.logger.info "visit_table_cell_value(#{value.inspect}, #{width.inspect}, #{status.inspect})"
       if (status != :thead) && !@multiline_arg
         @last_status = status
         progress(@last_time, :passed)
@@ -48,7 +48,7 @@ module Testjour
     end
     
     def visit_table_row(table_row)
-      Testjour.logger.info "visit_table_row"
+#      Testjour.logger.info "visit_table_row"
       super
       if table_row.exception
         progress(@last_time, :failed, table_row.exception.message.to_s, table_row.exception.backtrace.join("\n"))
