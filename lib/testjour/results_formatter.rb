@@ -10,7 +10,7 @@ module Testjour
       @undefined = 0
       @errors  = []
       @servers = []
-      @progress_bar = ProgressBar.new("0 failures", step_count)
+      @progress_bar = ProgressBar.new("0 failures", step_count, STDOUT)
       
       @times = Hash.new { |h,server_id| h[server_id] = [] }
     end
@@ -27,6 +27,7 @@ module Testjour
       @progress_bar.colorer = colorer
       @progress_bar.title = title
       @progress_bar.inc
+      STDOUT.flush
     end
   
     def log_result(dot, message = nil, backtrace = nil)
@@ -41,6 +42,7 @@ module Testjour
         puts Testjour::Colorer.failed(message)
         puts backtrace
         puts
+        STDOUT.flush
       when "P"
         @pending += 1
       when "U"
