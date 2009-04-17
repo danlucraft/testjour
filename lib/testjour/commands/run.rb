@@ -106,11 +106,13 @@ module Commands
     end
     
     def count_steps(feature_files)
+      start = Time.now
       features = load_plain_text_features(feature_files)
       visitor = Testjour::StepCounter.new(step_mother)
       visitor.options = configuration.cucumber_configuration.options
       visitor.visit_features(features)
-      Testjour.logger.info "step count: #{visitor.count}"
+      Testjour.logger.info "step count: #{visitor.count} (took #{Time.now - start}s)"
+      
       return visitor.count
     end
     

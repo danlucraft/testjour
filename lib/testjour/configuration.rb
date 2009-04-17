@@ -86,12 +86,13 @@ module Testjour
     end
     
     def load_plain_text_features(files)
+      start = Time.now
       features = Cucumber::Ast::Features.new
       
       Array(files).each do |file|
         features.add_feature(parser.parse_file(file))
       end
-      
+      Testjour.logger.info "Configuration\#load_plain_text_features took #{Time.now - start}s"
       return features
     end
     
