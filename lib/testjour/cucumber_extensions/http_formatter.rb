@@ -33,10 +33,11 @@ module Testjour
       @last_status = status
       @last_time = Time.now - @step_start
     end
-    
+
     def visit_exception(exception, status)
       return if @skip_step
-      progress(@last_time, @last_status, exception.message.to_s, exception.backtrace.join("\n"))
+
+      process_exception(@last_time, @last_status, exception)
     end
     
     def visit_table_cell_value(value, width, status)
@@ -51,13 +52,21 @@ module Testjour
 #      Testjour.logger.info "visit_table_row"
       super
       if table_row.exception
-        progress(@last_time, :failed, table_row.exception.message.to_s, table_row.exception.backtrace.join("\n"))
+        process_exception(@last_time, :failed, table_row.exception)
       else
         progress(@last_time, :passed)
       end
     end
     
     private
+
+    def hostname
+      @hostname ||= `hostname`
+    end
+     
+    def process_exception(time, status, exception)
+      progress(@last_time, status, exception.message.to_s, exception.backtrace.join("\n") + "\nFrom: " + @hostname)
+    end
 
     CHARS = {
       :undefined => 'U',
