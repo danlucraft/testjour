@@ -65,7 +65,7 @@ module Testjour
     end
      
     def process_exception(time, status, exception)
-      progress(@last_time, status, exception.message.to_s, exception.backtrace.join("\n") + "\nFrom: " + @hostname)
+      progress(@last_time, status, exception.message.to_s, exception.backtrace.join("\n") + "\nFrom: " + hostname)
     end
 
     CHARS = {
