@@ -82,7 +82,7 @@ module Testjour
     def self.kill_at_exit(pid)
       at_exit do
         Testjour.logger.info "Killing httpq (#{pid})"
-        Process.kill("INT", pid)
+        Process.kill("KILL", pid)
       end
     end
     
