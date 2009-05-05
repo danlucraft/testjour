@@ -18,8 +18,9 @@ module Commands
       @configuration
     end
     
-    def load_plain_text_features(files)
-      @configuration.load_plain_text_features(files)
+   def load_plain_text_features(files)
+      # Dan's version'
+      # @configuration.load_plain_text_features(files)
       # start = Time.now
       # features = Cucumber::Ast::Features.new
       # 
@@ -29,6 +30,13 @@ module Commands
       # 
       # Testjour.logger.info "Command\#load_plain_text_features took #{Time.now - start}s"
       # return features
+      features = Cucumber::Ast::Features.new
+      
+      Array(files).each do |file|
+        features.add_feature(parser.parse_file(file, configuration.cucumber_configuration.options))
+      end
+      
+      return features
     end
     
     def parser

@@ -7,6 +7,7 @@ require "testjour/configuration"
 require "testjour/cucumber_extensions/step_counter"
 require "testjour/cucumber_extensions/feature_file_finder"
 require "testjour/results_formatter"
+require "testjour/result"
 
 module Testjour
 module Commands
@@ -26,10 +27,12 @@ module Commands
           @started_slaves = 0
           start_slaves
           
-          puts "Requested build from #{@started_slaves} slaves... (Waiting for #{step_count} results)"
+          puts "Requested build from #{@started_slaves} slaves... (Waiting for #{step_counter.count} results)"
           puts
           
           print_results
+        else
+          Testjour.logger.info("No feature files. Quitting.")
         end
       end
     end
@@ -91,33 +94,39 @@ module Commands
     end
     
     def print_results
-      results_formatter = ResultsFormatter.new(step_count)
+      results_formatter = ResultsFormatter.new(step_counter)
       
       HttpQueue.with_queue(queue_uri) do |queue|
-        step_count.times do
-          result = queue.pop(:results)
-          results_formatter.result(*result)
+        step_counter.count.times do
+          results_formatter.result(queue.pop(:results))
         end
       end
       
       results_formatter.finish
       
       return results_formatter.failed? ? 1 : 0
-    end
-    
-    def count_steps(feature_files)
-      start = Time.now
-      features = load_plain_text_features(feature_files)
-      visitor = Testjour::StepCounter.new(step_mother)
-      visitor.options = configuration.cucumber_configuration.options
-      visitor.visit_features(features)
-      Testjour.logger.info "step count: #{visitor.count} (took #{Time.now - start}s)"
+    rescue => ex
+      if ex.message =~ /result overdue/
+        $stderr.puts
+        $stderr.puts "Missing steps:"
+        $stderr.puts
+        results_formatter.missing_backtrace_lines.each do |line|
+          $stderr.puts "    #{line}"
+        end
+        $stderr.puts
+      end
       
-      return visitor.count
+      raise
     end
     
-    def step_count
-      @step_count ||= count_steps(configuration.feature_files)
+    def step_counter
+      return @step_counter if @step_counter
+      
+      features = load_plain_text_features(configuration.feature_files)
+      @step_counter = Testjour::StepCounter.new(step_mother)
+      @step_counter.options = configuration.cucumber_configuration.options
+      @step_counter.visit_features(features)
+      return @step_counter
     end
     
     def local_run_command

@@ -16,20 +16,25 @@ module Commands
       configuration.parse!
       configuration.parse_uri!
       
-      # raise configuration.rsync_uri.inspect
-      
       Dir.chdir(configuration.in) do
         Testjour.setup_logger(configuration.in)
-        Testjour.logger.info "Starting run:slave"
-        
+        Testjour.logger.info "Starting run:remote"
+
         rsync
-        Testjour.logger.info "Setup"
-        configuration.setup
-        configuration.setup_mysql
-        Testjour.logger.info "Requiring"
-        require_files
-        Testjour.logger.info "Working #{configuration.queue_uri}"
-        work
+
+        begin
+          Testjour.logger.info "Setup"
+          configuration.setup
+          configuration.setup_mysql
+          Testjour.logger.info "Requiring"
+          require_files
+          Testjour.logger.info "Working"
+
+          work
+        rescue Object => ex
+          Testjour.logger.error "run:remote error: #{ex.message}"
+          Testjour.logger.error ex.backtrace.join("\n")
+        end
       end
     end
     

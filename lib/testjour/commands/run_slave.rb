@@ -45,15 +45,17 @@ module Commands
           if feature_file
             Testjour.logger.info "Running: #{feature_file}"
             features = load_plain_text_features(feature_file)
+            Testjour.logger.info "Loaded: #{feature_file}"
+
             begin
               execute_features(features)
             rescue Object => e
               Testjour.logger.info "Error: #{e.message}\n#{e.backtrace.join("\n")}"
               exit
             end
-            Testjour.logger.info "Completed: #{feature_file}"
+            Testjour.logger.info "Finished running: #{feature_file}"
           else
-            Testjour.logger.info "No feature file found. Finsihed"
+            Testjour.logger.info "No feature file found. Finished"
           end
         end
       end
@@ -62,6 +64,7 @@ module Commands
     def execute_features(features)
       visitor = Testjour::HttpFormatter.new(step_mother, StringIO.new, configuration.queue_uri)
       visitor.options = configuration.cucumber_configuration.options
+      Testjour.logger.info "Visiting..."
       visitor.visit_features(features)
     end
     

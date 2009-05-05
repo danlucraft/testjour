@@ -17,10 +17,14 @@ When /^I run `testjour (.+)`$/ do |args|
   Dir.chdir(@full_dir) do
     testjour_path = File.expand_path(File.dirname(__FILE__) + "/../../../../bin/testjour")
     cmd = "#{testjour_path} #{@args.join(" ")}"
-    puts cmd
+    # puts cmd
     status, @stdout, @stderr = systemu(cmd)
     @exit_code = status.exitstatus
   end
+end
+
+Then "it should not print to stderr" do
+  @stderr.should == ""
 end
 
 Then /^it should (pass|fail) with "(.+)"$/ do |pass_or_fail, text|
@@ -39,7 +43,7 @@ Then /^it should (pass|fail) with$/ do |pass_or_fail, text|
   else
     @exit_code.should_not == 0
   end
-  
+
   @stdout.should include(text)
 end
 
@@ -64,7 +68,6 @@ Then /^it should run on (\d+) slaves?$/ do |count|
 end
 
 Then /^it should run on 2 remote slaves$/ do
-  Dir.chdir(@full_dir) do
-    puts IO.read("testjour.log")
-  end
+  pids = @stdout.scan(/\[\d+\] ran \d+ steps/).uniq
+  pids.size.should == 2
 end

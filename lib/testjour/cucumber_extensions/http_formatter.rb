@@ -1,37 +1,180 @@
 require 'socket'
 #require 'english'
 require 'cucumber/formatter/console'
+require 'testjour/result'
 
 module Testjour
+  class Visitor
+    attr_accessor :options
+    attr_reader :step_mother
+
+    def initialize(step_mother)
+      @options = {}
+      @step_mother = step_mother
+    end
+
+    def matches_scenario_names?(node)
+      scenario_names = options[:scenario_names] || []
+      scenario_names.empty? || node.matches_scenario_names?(scenario_names)
+    end
+
+    def visit_features(features)
+      Testjour.logger.info "visit_features..."
+      features.accept(self)
+      Testjour.logger.info "visit_features done"
+    end
+
+    def visit_feature(feature)
+      Testjour.logger.info "visit_feature..."
+      feature.accept(self)
+      Testjour.logger.info "visit_feature done"
+    end
+
+    def visit_comment(comment)
+      Testjour.logger.info "visit_comment"
+      comment.accept(self)
+      Testjour.logger.info "visit_comment done"
+    end
+
+    def visit_comment_line(comment_line)
+    end
+
+    def visit_tags(tags)
+      Testjour.logger.info "visit_tags"
+      tags.accept(self)
+      Testjour.logger.info "visit_tags done"
+    end
+
+    def visit_tag_name(tag_name)
+    end
+
+    def visit_feature_name(name)
+    end
+
+    # +feature_element+ is either Scenario or ScenarioOutline
+    def visit_feature_element(feature_element)
+      Testjour.logger.info "visit_feature element..."
+      feature_element.accept(self)
+      Testjour.logger.info "visit_feature element done"
+    end
+
+    def visit_background(background)
+      Testjour.logger.info "visit_background"
+      background.accept(self)
+      Testjour.logger.info "visit_background done"
+    end
+
+    def visit_background_name(keyword, name, file_colon_line, source_indent)
+    end
+
+    def visit_examples(examples)
+      Testjour.logger.info "visit_examples"
+      examples.accept(self)
+      Testjour.logger.info "visit_examples done"
+    end
+
+    def visit_examples_name(keyword, name)
+    end
+
+    def visit_outline_table(outline_table)
+      Testjour.logger.info "visit_outline_table"
+      outline_table.accept(self)
+      Testjour.logger.info "visit_outline_table done"
+    end
+
+    def visit_scenario_name(keyword, name, file_colon_line, source_indent)
+    end
+
+    def visit_steps(steps)
+      Testjour.logger.info "visit_steps..."
+      steps.accept(self)
+      Testjour.logger.info "visit_steps done"
+    end
+
+    def visit_step(step)
+      Testjour.logger.info "visit_step"
+      step.accept(self)
+      Testjour.logger.info "visit_step done"
+    end
+
+    def visit_step_result(keyword, step_match, multiline_arg, status, exception, source_indent, background)
+      Testjour.logger.info "visit_step_result"
+      visit_step_name(keyword, step_match, status, source_indent, background)
+      visit_multiline_arg(multiline_arg) if multiline_arg
+      visit_exception(exception, status) if exception
+      Testjour.logger.info "visit_step_result done"
+    end
+
+    def visit_step_name(keyword, step_match, status, source_indent, background) #:nodoc:
+      Testjour.logger.info "visit_step name."
+    end
+
+    def visit_multiline_arg(multiline_arg) #:nodoc:
+      Testjour.logger.info "visit_multiline_arg"
+      multiline_arg.accept(self)
+      Testjour.logger.info "visit_multiline_arg done"
+    end
+
+    def visit_exception(exception, status) #:nodoc:
+    end
+
+    def visit_py_string(string)
+    end
+
+    def visit_table_row(table_row)
+      Testjour.logger.info "visit_table_row"
+      table_row.accept(self)
+      Testjour.logger.info "visit_table_row done"
+    end
+
+    def visit_table_cell(table_cell)
+      Testjour.logger.info "visit_table_cell"
+      table_cell.accept(self)
+      Testjour.logger.info "visit_table_cell done"
+    end
+
+    def visit_table_cell_value(value, width, status)
+    end
+
+    def announce(announcement)
+    end
+
+  end
   
-  class HttpFormatter < Cucumber::Ast::Visitor
-    include Cucumber::Formatter::Console
+  class HttpFormatter < ::Testjour::Visitor
 
     def initialize(step_mother, io, queue_uri)
       super(step_mother)
-      @options = {}
-      @io = io
       @queue_uri = queue_uri
     end
     
-    def visit_multiline_arg(multiline_arg, status)
+    def visit_multiline_arg(multiline_arg)
       @multiline_arg = true
       super
       @multiline_arg = false
     end
     
+#     def visit_step(step)
+#       @step_start = Time.now
+#       exception = super
+#       unless @last_status == :outline or @last_status == :failed
+#         progress(@last_time, @last_status)
+#       end
+#     end
+#     
+#     def visit_step_name(keyword, step_name, status, step_definition, source_indent)
+# #      Testjour.logger.info "visit_step_name(#{keyword.inspect}, #{step_name.instance_variable_get(:@step_name).inspect}, #{status.inspect}"
+#       @last_status = status
+#       @last_time = Time.now - @step_start
+#     end
+
     def visit_step(step)
-      @step_start = Time.now
-      exception = super
-      unless @last_status == :outline or @last_status == :failed
-        progress(@last_time, @last_status)
+      step_start = Time.now
+      super
+
+      if step.respond_to?(:status)
+        progress(Time.now - step_start, step)
       end
-    end
-    
-    def visit_step_name(keyword, step_name, status, step_definition, source_indent)
-#      Testjour.logger.info "visit_step_name(#{keyword.inspect}, #{step_name.instance_variable_get(:@step_name).inspect}, #{status.inspect}"
-      @last_status = status
-      @last_time = Time.now - @step_start
     end
 
     def visit_exception(exception, status)
@@ -40,51 +183,56 @@ module Testjour
       process_exception(@last_time, @last_status, exception)
     end
     
+    # def visit_table_cell_value(value, width, status)
+# #      Testjour.logger.info "visit_table_cell_value(#{value.inspect}, #{width.inspect}, #{status.inspect})"
+#       if (status != :thead) && !@multiline_arg
+#         @last_status = status
+#         progress(@last_time, :passed)
+#       end
+#     end
+#     
+#     def visit_table_row(table_row)
+# #      Testjour.logger.info "visit_table_row"
+#       super
+#       if table_row.exception
+#         process_exception(@last_time, :failed, table_row.exception)
+#       else
+#         progress(@last_time, :passed)
+#       end
+#     end
+#     
+#     private
+# 
+#     def hostname
+#       @hostname ||= `hostname`
+#     end
+#      
+#     def process_exception(time, status, exception)
+#       progress(@last_time, status, exception.message.to_s, exception.backtrace.join("\n") + "\nFrom: " + hostname)
+#     end
+# 
+#     CHARS = {
+#       :undefined => 'U',
+#       :passed    => '.',
+#       :failed    => 'F',
+#       :pending   => 'P',
+#       :skipped   => 'S'
+#     }
+# 
+#     def progress(time, status, message = nil, backtrace = nil)
+#       Testjour.logger.info "http push :results #{[time, hostname, $PID, CHARS[status], message, backtrace].inspect}"
     def visit_table_cell_value(value, width, status)
-#      Testjour.logger.info "visit_table_cell_value(#{value.inspect}, #{width.inspect}, #{status.inspect})"
-      if (status != :thead) && !@multiline_arg
-        @last_status = status
-        progress(@last_time, :passed)
+      if (status != :skipped_param) && !@multiline_arg
+        progress(0.0, nil, status)
       end
     end
     
-    def visit_table_row(table_row)
-#      Testjour.logger.info "visit_table_row"
-      super
-      if table_row.exception
-        process_exception(@last_time, :failed, table_row.exception)
-      else
-        progress(@last_time, :passed)
-      end
-    end
-    
-    private
+  private
 
-    def hostname
-      @hostname ||= `hostname`
-    end
-     
-    def process_exception(time, status, exception)
-      progress(@last_time, status, exception.message.to_s, exception.backtrace.join("\n") + "\nFrom: " + hostname)
-    end
-
-    CHARS = {
-      :undefined => 'U',
-      :passed    => '.',
-      :failed    => 'F',
-      :pending   => 'P',
-      :skipped   => 'S'
-    }
-
-    def progress(time, status, message = nil, backtrace = nil)
-      Testjour.logger.info "http push :results #{[time, hostname, $PID, CHARS[status], message, backtrace].inspect}"
+    def progress(time, step_invocation, status = nil)
       HttpQueue.with_queue(@queue_uri) do |queue|
-        queue.push(:results, [time, hostname, $PID, CHARS[status], message, backtrace])
+        queue.push(:results, Result.new(time, step_invocation, status))
       end
-    end
-    
-    def hostname
-      @hostname ||= Socket.gethostname
     end
     
   end
