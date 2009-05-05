@@ -84,6 +84,7 @@ module Testjour
     def self.kill_at_exit(pid)
       at_exit do
         Testjour.logger.info "Killing httpq (#{pid})"
+        sleep 1
         Process.kill("KILL", pid)
       end
     end
