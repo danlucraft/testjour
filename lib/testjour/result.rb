@@ -18,19 +18,14 @@ module Testjour
       :skipped   => 'S'
     }
     
-    def initialize(time, step_invocation, status = nil)
+    def initialize(time, status, exception = nil)
       @time           = time
-      
-      if status
-        @status = status
-      else
-        @status         = step_invocation.status
-        @backtrace_line = step_invocation.backtrace_line
-      
-        if step_invocation.exception
-          @message    = step_invocation.exception.message.to_s
-          @backtrace  = step_invocation.exception.backtrace.join("\n")
-        end
+      @status         = status
+      @backtrace_line = 'unknown'
+    	
+      if exception
+        @message    = exception.message.to_s
+        @backtrace  = exception.backtrace.join("\n")
       end
       
       @pid        = $PID

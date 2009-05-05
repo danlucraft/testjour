@@ -154,85 +154,41 @@ module Testjour
       @multiline_arg = false
     end
     
-#     def visit_step(step)
-#       @step_start = Time.now
-#       exception = super
-#       unless @last_status == :outline or @last_status == :failed
-#         progress(@last_time, @last_status)
-#       end
-#     end
-#     
-#     def visit_step_name(keyword, step_name, status, step_definition, source_indent)
-# #      Testjour.logger.info "visit_step_name(#{keyword.inspect}, #{step_name.instance_variable_get(:@step_name).inspect}, #{status.inspect}"
-#       @last_status = status
-#       @last_time = Time.now - @step_start
-#     end
-
     def visit_step(step)
       step_start = Time.now
       super
 
       if step.respond_to?(:status)
-        progress(Time.now - step_start, step)
+        progress(Time.now - step_start, step.status, step.exception)
       end
     end
 
-    def visit_exception(exception, status)
-      return if @skip_step
-
-      process_exception(@last_time, @last_status, exception)
-    end
-    
-    # def visit_table_cell_value(value, width, status)
-# #      Testjour.logger.info "visit_table_cell_value(#{value.inspect}, #{width.inspect}, #{status.inspect})"
-#       if (status != :thead) && !@multiline_arg
-#         @last_status = status
-#         progress(@last_time, :passed)
-#       end
-#     end
-#     
-#     def visit_table_row(table_row)
-# #      Testjour.logger.info "visit_table_row"
-#       super
-#       if table_row.exception
-#         process_exception(@last_time, :failed, table_row.exception)
-#       else
-#         progress(@last_time, :passed)
-#       end
-#     end
-#     
-#     private
-# 
-#     def hostname
-#       @hostname ||= `hostname`
-#     end
-#      
-#     def process_exception(time, status, exception)
-#       progress(@last_time, status, exception.message.to_s, exception.backtrace.join("\n") + "\nFrom: " + hostname)
-#     end
-# 
-#     CHARS = {
-#       :undefined => 'U',
-#       :passed    => '.',
-#       :failed    => 'F',
-#       :pending   => 'P',
-#       :skipped   => 'S'
-#     }
-# 
-#     def progress(time, status, message = nil, backtrace = nil)
-#       Testjour.logger.info "http push :results #{[time, hostname, $PID, CHARS[status], message, backtrace].inspect}"
-    def visit_table_cell_value(value, width, status)
-      if (status != :skipped_param) && !@multiline_arg
-        progress(0.0, nil, status)
+    def visit_table_row(table_row)
+      row_start = Time.now
+      super
+      if table_row.exception
+        progress(Time.now - row_start, :failed, table_row.exception)
+      else
+        progress(Time.now - row_start, :passed)
       end
     end
     
-  private
+    private
 
-    def progress(time, step_invocation, status = nil)
+    def progress(time, status, exception = nil)
+      result = Result.new(time, status, exception)
+      array_to_log = [time, hostname, $PID, status]
+      if exception
+        array_to_log += [exception.message, exception.backtrace]
+      end
+      Testjour.logger.info "http push :results #{array_to_log.inspect}"
       HttpQueue.with_queue(@queue_uri) do |queue|
-        queue.push(:results, Result.new(time, step_invocation, status))
+        queue.push(:results, result)
       end
+    end
+    
+    def hostname
+      @hostname ||= `hostname`
     end
     
   end
