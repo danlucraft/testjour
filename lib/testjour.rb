@@ -42,6 +42,6 @@ module Testjour
       "#{time.strftime("%b %d %H:%M:%S")} [#{$PID}]: #{msg}\n"
     end
     
-    @logger.level = Logger::DEBUG
+    @logger.level = Logger::INFO
   end
 end
