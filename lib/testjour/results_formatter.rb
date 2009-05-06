@@ -34,6 +34,7 @@ module Testjour
       print Testjour::Colorer.failed("#{@result_set.errors.size}) ")
       puts Testjour::Colorer.failed(result.message)
       puts result.backtrace
+      puts "from: " + result.server_id
       puts
     end
 
