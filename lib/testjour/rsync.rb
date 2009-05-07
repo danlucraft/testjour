@@ -23,11 +23,11 @@ module Testjour
         copy
         
         if successful?
-          Testjour.logger.debug("Rsync finished in %.2fs" % elapsed_time)
+          Testjour.logger.info("Rsync finished in %.2fs" % elapsed_time)
         else
-          Testjour.logger.debug("Rsync failed in %.2fs" % elapsed_time)
-          Testjour.logger.debug("Rsync stdout: #{@stdout}")
-          Testjour.logger.debug("Rsync stderr: #{@stderr}")
+          Testjour.logger.error("Rsync failed in %.2fs" % elapsed_time)
+          Testjour.logger.error("Rsync stdout: #{@stdout}")
+          Testjour.logger.error("Rsync stderr: #{@stderr}")
           raise RsyncFailed.new 
         end
       end
@@ -49,7 +49,7 @@ module Testjour
     end
     
     def command
-      "rsync -az --delete --exclude=.git --exclude=*.log --exclude=*.pid #{@source_uri}/ #{destination_dir}"
+      "rsync -az --delete --exclude=*.log --exclude=*.pid #{@source_uri}/ #{destination_dir}"
     end
     
     def destination_dir
