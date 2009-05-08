@@ -35,6 +35,7 @@ module Testjour
       puts Testjour::Colorer.failed(result.message)
       puts result.backtrace
       puts "from: " + result.server_id
+      puts "at: #{Time.now}"
       puts
     end
 
