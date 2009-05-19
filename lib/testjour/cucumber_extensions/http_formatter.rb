@@ -116,6 +116,8 @@ module Testjour
     end
 
     def visit_exception(exception, status) #:nodoc:
+      Testjour.logger.debug "visit_exception"
+      Testjour.logger.debug "visit_exception done"
     end
 
     def visit_py_string(string)
@@ -161,6 +163,11 @@ module Testjour
       if step.respond_to?(:status)
         progress(Time.now - step_start, step.status, step.exception)
       end
+    end
+
+    def visit_exception(exception, status) #:nodoc:
+      Testjour.logger.warn  "#{exception.message}\n\n#{exception.backtrace.join("\n")}"
+      progress(0, :failed, exception)
     end
 
     def visit_table_row(table_row)
