@@ -1,0 +1,118 @@
+wait_for_service({:port=>14295, :host=>"0.0.0.0"})
+Requested build from 2 slaves... (Waiting for 96 results)
+
+1 slaves, 0 failures        1% [>                                         ] ETA: 00:00:12
+2 slaves, 0 failures        2% [>                                         ] ETA: 00:00:10
+2 slaves, 0 failures        3% [=>                                        ] ETA: 00:00:13
+2 slaves, 0 failures        4% [=>                                        ] ETA: 00:00:11
+2 slaves, 0 failures        5% [==>                                       ] ETA: 00:00:13
+2 slaves, 0 failures        6% [==>                                       ] ETA: 00:00:12
+2 slaves, 0 failures        7% [==>                                       ] ETA: 00:00:13
+2 slaves, 0 failures        8% [===>                                      ] ETA: 00:00:12
+2 slaves, 0 failures        9% [===>                                      ] ETA: 00:00:12
+2 slaves, 0 failures       10% [====>                                     ] ETA: 00:00:12
+2 slaves, 0 failures       11% [====>                                     ] ETA: 00:00:12
+2 slaves, 0 failures       12% [=====>                                    ] ETA: 00:00:12
+2 slaves, 0 failures       13% [=====>                                    ] ETA: 00:00:12
+2 slaves, 0 failures       14% [=====>                                    ] ETA: 00:00:12
+2 slaves, 0 failures       15% [======>                                   ] ETA: 00:00:12
+2 slaves, 0 failures       16% [======>                                   ] ETA: 00:00:11
+2 slaves, 0 failures       17% [=======>                                  ] ETA: 00:00:11
+2 slaves, 0 failures       18% [=======>                                  ] ETA: 00:00:11
+2 slaves, 0 failures       19% [=======>                                  ] ETA: 00:00:11
+2 slaves, 0 failures       20% [========>                                 ] ETA: 00:00:11
+2 slaves, 0 failures       21% [========>                                 ] ETA: 00:00:11
+2 slaves, 0 failures       22% [=========>                                ] ETA: 00:00:11
+2 slaves, 0 failures       23% [=========>                                ] ETA: 00:00:11
+2 slaves, 0 failures       25% [==========>                               ] ETA: 00:00:10
+2 slaves, 0 failures       26% [==========>                               ] ETA: 00:00:10
+2 slaves, 0 failures       27% [===========>                              ] ETA: 00:00:10
+2 slaves, 0 failures       28% [===========>                              ] ETA: 00:00:10
+2 slaves, 0 failures       29% [============>                             ] ETA: 00:00:10
+2 slaves, 0 failures       30% [============>                             ] ETA: 00:00:10
+2 slaves, 0 failures       31% [=============>                            ] ETA: 00:00:09
+2 slaves, 0 failures       32% [=============>                            ] ETA: 00:00:09
+2 slaves, 0 failures       33% [=============>                            ] ETA: 00:00:09
+2 slaves, 0 failures       34% [==============>                           ] ETA: 00:00:09
+2 slaves, 0 failures       35% [==============>                           ] ETA: 00:00:09
+2 slaves, 0 failures       36% [===============>                          ] ETA: 00:00:09
+2 slaves, 0 failures       37% [===============>                          ] ETA: 00:00:09
+2 slaves, 0 failures       38% [===============>                          ] ETA: 00:00:09
+2 slaves, 0 failures       39% [================>                         ] ETA: 00:00:08
+2 slaves, 0 failures       40% [================>                         ] ETA: 00:00:08
+2 slaves, 0 failures       41% [=================>                        ] ETA: 00:00:08
+2 slaves, 0 failures       42% [=================>                        ] ETA: 00:00:08
+2 slaves, 0 failures       43% [==================>                       ] ETA: 00:00:08
+2 slaves, 0 failures       44% [==================>                       ] ETA: 00:00:08
+2 slaves, 0 failures       45% [==================>                       ] ETA: 00:00:07
+2 slaves, 0 failures       46% [===================>                      ] ETA: 00:00:07
+2 slaves, 0 failures       47% [===================>                      ] ETA: 00:00:07
+2 slaves, 0 failures       48% [====================>                     ] ETA: 00:00:07
+2 slaves, 0 failures       50% [=====================>                    ] ETA: 00:00:07
+2 slaves, 0 failures       51% [=====================>                    ] ETA: 00:00:07
+2 slaves, 0 failures       52% [=====================>                    ] ETA: 00:00:07
+2 slaves, 0 failures       53% [======================>                   ] ETA: 00:00:06
+2 slaves, 0 failures       54% [======================>                   ] ETA: 00:00:06
+2 slaves, 0 failures       55% [=======================>                  ] ETA: 00:00:06
+2 slaves, 0 failures       56% [=======================>                  ] ETA: 00:00:06
+2 slaves, 0 failures       57% [=======================>                  ] ETA: 00:00:06
+2 slaves, 0 failures       58% [========================>                 ] ETA: 00:00:06
+2 slaves, 0 failures       59% [========================>                 ] ETA: 00:00:05
+2 slaves, 0 failures       60% [=========================>                ] ETA: 00:00:05
+2 slaves, 0 failures       61% [=========================>                ] ETA: 00:00:05
+2 slaves, 0 failures       62% [==========================>               ] ETA: 00:00:05
+2 slaves, 0 failures       63% [==========================>               ] ETA: 00:00:05
+2 slaves, 0 failures       64% [==========================>               ] ETA: 00:00:05
+2 slaves, 0 failures       65% [===========================>              ] ETA: 00:00:05
+2 slaves, 0 failures       66% [===========================>              ] ETA: 00:00:04
+2 slaves, 0 failures       67% [============================>             ] ETA: 00:00:04
+2 slaves, 0 failures       68% [============================>             ] ETA: 00:00:04
+2 slaves, 0 failures       69% [============================>             ] ETA: 00:00:04
+2 slaves, 0 failures       70% [=============================>            ] ETA: 00:00:04
+2 slaves, 0 failures       71% [=============================>            ] ETA: 00:00:04
+2 slaves, 0 failures       72% [==============================>           ] ETA: 00:00:04
+2 slaves, 0 failures       73% [==============================>           ] ETA: 00:00:04
+2 slaves, 0 failures       75% [===============================>          ] ETA: 00:00:04
+2 slaves, 0 failures       76% [===============================>          ] ETA: 00:00:03
+2 slaves, 0 failures       77% [================================>         ] ETA: 00:00:03
+2 slaves, 0 failures       78% [================================>         ] ETA: 00:00:03
+2 slaves, 0 failures       79% [=================================>        ] ETA: 00:00:03
+2 slaves, 0 failures       80% [=================================>        ] ETA: 00:00:03
+2 slaves, 0 failures       81% [==================================>       ] ETA: 00:00:03
+2 slaves, 0 failures       82% [==================================>       ] ETA: 00:00:03
+2 slaves, 0 failures       83% [==================================>       ] ETA: 00:00:02
+2 slaves, 0 failures       84% [===================================>      ] ETA: 00:00:02
+2 slaves, 0 failures       85% [===================================>      ] ETA: 00:00:02
+2 slaves, 0 failures       86% [====================================>     ] ETA: 00:00:02
+2 slaves, 0 failures       87% [====================================>     ] ETA: 00:00:02
+2 slaves, 0 failures       88% [====================================>     ] ETA: 00:00:01
+2 slaves, 0 failures       89% [=====================================>    ] ETA: 00:00:01
+2 slaves, 0 failures       90% [=====================================>    ] ETA: 00:00:01
+2 slaves, 0 failures       91% [======================================>   ] ETA: 00:00:01
+2 slaves, 0 failures       92% [======================================>   ] ETA: 00:00:01
+2 slaves, 0 failures       93% [=======================================>  ] ETA: 00:00:01
+2 slaves, 0 failures       94% [=======================================>  ] ETA: 00:00:00
+[K1) expected: -12,
+     got: -20 (using ==)
+./features/step_definitions/calculator_steps.rb:24:in `/the result should be (.*) on the screen/'
+features/subtraction.feature:34:in `Then the result should be <result> on the screen'
+
+2 slaves, 1 failures       95% [=======================================>  ] ETA: 00:00:00
+2 slaves, 1 failures       96% [========================================> ] ETA: 00:00:00
+2 slaves, 1 failures       97% [========================================> ] ETA: 00:00:00
+2 slaves, 1 failures       98% [=========================================>] ETA: 00:00:00
+[K2) error!!
+./features/step_definitions/calculator_steps.rb:11:in `/^I have entered (.*) into the calculator$/'
+features/subtraction.feature:32:in `And I have entered <num2> into the calculator'
+
+2 slaves, 2 failures      100% [=========================================>] ETA: 00:00:00
+2 slaves, 2 failures      100% [=========================================>] Time: 00:00:16
+
+
+90 steps passed
+2 steps failed
+4 steps skipped
+
+dan-desktop [14750] ran 64 steps in 14.34s (4.46 steps/s)
+dan-desktop [14753] ran 32 steps in 9.56s (3.35 steps/s)
+
