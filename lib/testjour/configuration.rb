@@ -178,10 +178,5 @@ module Testjour
       end
     end
   end
-<<<<<<< HEAD:lib/testjour/configuration.rb
-  
-end
-=======
 
 end
->>>>>>> brynary:lib/testjour/configuration.rb
