@@ -60,6 +60,7 @@ module Testjour
     end
     
     def self.with_queue(uri = nil, &block)
+      Testjour.logger.info("with_queue: #{uri.inspect}")
       yield QueueProxy.new(uri)
     end
     
