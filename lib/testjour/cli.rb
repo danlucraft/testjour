@@ -26,6 +26,9 @@ module Testjour
       elsif args.first == "run:remote"
         @args_for_command = @args[1..-1]
         Commands::RunRemote
+      elsif args.first == "countsteps"
+        @args_for_command = @args[1..-1]
+        Commands::CountSteps
       else
         @args_for_command = @args.dup
         Commands::Run

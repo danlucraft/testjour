@@ -164,21 +164,21 @@ module Testjour
         progress(Time.now - step_start, step.status, step.exception)
       end
     end
+        # 
+        # def visit_feature_element(feature_element)
+        #   @step_exception = nil
+        #   super
+        #   if @step_exception
+        #     @step_exception.backtrace << feature_element.file_colon_line
+        #     progress(0, :failed, @step_exception)
+        #   end
+        # end
+        # 
+        # def visit_exception(exception, status) #:nodoc:
+        #   Testjour.logger.warn  "#{exception.message}\n\n#{exception.backtrace.join("\n")}"
+        #   @step_exception = exception
+        # end
     
-    def visit_feature_element(feature_element)
-      @step_exception = nil
-      super
-      if @step_exception
-        @step_exception.backtrace << feature_element.file_colon_line
-        progress(0, :failed, @step_exception)
-      end
-    end
-    
-    def visit_exception(exception, status) #:nodoc:
-      Testjour.logger.warn  "#{exception.message}\n\n#{exception.backtrace.join("\n")}"
-      @step_exception = exception
-    end
-
     def visit_table_row(table_row)
       row_start = Time.now
       super
