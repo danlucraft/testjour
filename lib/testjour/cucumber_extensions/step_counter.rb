@@ -11,6 +11,7 @@ module Testjour
     end
     
     def visit_step(step_invocation)
+      super
       if step_invocation.respond_to?(:status)
         @backtrace_lines << step_invocation.backtrace_line
       end
