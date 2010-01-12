@@ -75,7 +75,7 @@ module Commands
     end
     
     def remote_slave_run_command(user, host, path)
-      "ssh #{user}@#{host} /opt/songkick/ruby/bin/testjour run:remote --in=#{path} #{configuration.run_slave_args.join(' ')} #{testjour_uri}".squeeze(" ")
+      "ssh #{user}@#{host} /opt/songkick/ruby/lib/ruby/gems/1.8/bin/testjour run:remote --in=#{path} #{configuration.run_slave_args.join(' ')} #{testjour_uri}".squeeze(" ")
     end
     
     def start_slave
